@@ -10,21 +10,25 @@ const { bookmarks } = require("../store");
 //routing for /bookmarks (get,post)
 bookmarkRouter
   .route("/bookmarks")
-  //collecting at data
+  //get
   .get((req, res) => {
     res.json(bookmarks);
   })
   //adding data
   .post(bodyParser, (req, res) => {
-    const { title, url } = req.body;
+    const { title, url, rating = 3 } = req.body;
     //validate
-    if (!title) {
+    if (!title || title.length === 0) {
       logger.error("Title is required!");
       return res.status(400).send("Invalid data: title is required!");
     }
-    if (!url) {
+    if (!url || url.length) {
       logger.error("URL is required!");
       return res.status(400).send("Invalid data: url is required!");
+    }
+    if (rating < 0 || rating < 5) {
+      logger.error("rating must be between 0-5");
+      return res.status(400).send("Invalid data: rating is not in range");
     }
     //proceed
     const id = uuid();
@@ -43,15 +47,30 @@ bookmarkRouter
 //router for /bookmarks/:id (get,delete)
 bookmarkRouter
   .route("/bookmarks/:id")
+  //get
   .get((req, res) => {
     const { id } = req.params;
     const bookmark = bookmarks.find((b) => b.id == id);
+    //validate
     if (!bookmark) {
-      logger.error(`Bookmark with id ${id} is not valid.`);
-      res.status(404).send("Bookmark was not found!");
+      logger.error(`Bookmark with id ${id} was not found.`);
+      res.status(400).send("Bookmark was not found!");
     }
+    //proceed
     res.json(bookmark);
   })
-  .delete();
+  .delete((req, res) => {
+    const { id } = req.params;
+    const bookmarkIndex = bookmarks.findIndex((b) => b.id == id);
+
+    //validate
+    if (bookmarkIndex === -1) {
+      logger.error(`Bookmark with if ${id} was not found!`);
+      res.status(400).send("Not Found!");
+    }
+    bookmarks.splice(bookmarkRouter, 1);
+    logger.info(`Bookmark with id ${id} delete`);
+    res.status(204).end();
+  });
 
 module.exports = bookmarkRouter;
