@@ -16,17 +16,17 @@ bookmarkRouter
   })
   //adding data
   .post(bodyParser, (req, res) => {
-    const { title, url, rating = 3 } = req.body;
+    const { title, url, description = "", rating = 0 } = req.body;
     //validate
     if (!title || title.length === 0) {
       logger.error("Title is required!");
       return res.status(400).send("Invalid data: title is required!");
     }
-    if (!url || url.length) {
+    if (!url || url.length === 0) {
       logger.error("URL is required!");
       return res.status(400).send("Invalid data: url is required!");
     }
-    if (rating < 0 || rating < 5) {
+    if (rating < 0 || rating > 5) {
       logger.error("rating must be between 0-5");
       return res.status(400).send("Invalid data: rating is not in range");
     }
@@ -36,6 +36,8 @@ bookmarkRouter
       id,
       title,
       url,
+      description,
+      rating,
     };
     bookmarks.push(bookmark);
     logger.info(`Bookmark with id ${id} created!`);
