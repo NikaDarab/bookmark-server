@@ -29,3 +29,13 @@
 {"message":"URL is required!","level":"error"}
 {"message":"rating must be between 0-5","level":"error"}
 {"message":"Bookmark with id 168f39f8-d398-4f58-8c14-9e736949bca8 created!","level":"info"}
+{"message":"Unathorized request to path: /bookmarks","level":"error"}
+{"message":"Unathorized request to path: /bookmarks","level":"error"}
+{"message":"Unathorized request to path: /bookmarks","level":"error"}
+{"message":"Unathorized request to path: /bookmarks","level":"error"}
+{"message":"Unathorized request to path: /bookmarks","level":"error"}
+{"message":"Unathorized request to path: /bookmarks","level":"error"}
+{"message":"Unathorized request to path: /bookmarks","level":"error"}
+{"message":"Unathorized request to path: /","level":"error"}
+{"message":"Unathorized request to path: /favicon.ico","level":"error"}
+{"message":"Unathorized request to path: /","level":"error"}

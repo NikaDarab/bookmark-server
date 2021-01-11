@@ -1,0 +1,2 @@
+DROP TABLE EXISTS bookmarks;
+DROP TYPE IF EXISTS star_rating;
